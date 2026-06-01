@@ -46,13 +46,14 @@ points:
           shift: [mx/2, -mx - 4.75]
       columns:
         t0.key:
-          splay: -22
-          shift: [0, 0]
-          width: 1.5mx
-          tags: [key, key_1_5uw]
+            splay: -22
+            shift: [0, 0]
+            width: 1.5mx
+            tags: [key, key_1_5uw]
         t1.key:
           splay: 0
-          shift: [4.75, mx/4]
+          shift: [0, mx/4]
+          spread: 1.25mx
           height: 1.5mx
           tags: [key, key_1_5u]
       rows:
@@ -216,7 +217,7 @@ outlines:
     - what: outline
       name: keycaps
       operation: stack
-  preview_board:
+  preview_outline:
     - what: outline
       name: board_left
       operation: stack
@@ -233,7 +234,7 @@ outlines:
     - what: outline
       name: keycaps
       operation: stack
-  preview2_board:
+  preview2_outline:
     - what: outline
       name: board_left2
       operation: stack
