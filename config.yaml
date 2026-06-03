@@ -7,6 +7,7 @@ units:
   pd: 2
   px: mx + pd
   py: mx + pd
+  case_pd: 7
 points:
   key:
     tags:
@@ -60,8 +61,53 @@ points:
         r0:
   mirror: &mirror
     ref: matrix_c6_r0
-    distance: 2mx
+    distance: 3mx
 outlines:
+  thumbfan_enclosed_left:
+    - what: polygon
+      operation: stack
+      fillet: 0
+      points:
+        - ref: matrix_c3_mods
+          shift: [mx/2, -mx/2 - 0.5]
+        - ref: matrix_c3_mods
+          shift: [mx/2, mx/2]
+        - ref: matrix_c3_mods
+          shift: [2.5mx + 0.5, mx/2]
+        - ref: matrix_c5_r3
+          shift: [mx/2 + 0.5, -mx/2 + 1]
+        - ref: thumbfan_t1_r0
+          shift: [mx/2 + 0.5, 1.5mx/2 + 0.5] # top-right t1
+        - ref: thumbfan_t1_r0
+          shift: [mx/2 + 0.5, -1.5mx/2 - 0.5] # bottom-right t1
+  thumbfan_enclosed_right:
+    - what: polygon
+      operation: stack
+      fillet: 0
+      points:
+        - ref: mirror_matrix_c3_mods
+          shift: [mx/2, -mx/2 - 0.5]
+        - ref: mirror_matrix_c3_mods
+          shift: [mx/2, mx/2]
+        - ref: mirror_matrix_c3_mods
+          shift: [2.5mx + 0.5, mx/2]
+        - ref: mirror_matrix_c5_r3
+          shift: [mx/2 + 0.5, -mx/2 + 1]
+        - ref: mirror_thumbfan_t1_r0
+          shift: [mx/2 + 0.5, 1.5mx/2 + 0.5] # top-left t1
+        - ref: mirror_thumbfan_t1_r0
+          shift: [mx/2 + 0.5, -1.5mx/2 - 0.5] # bottom-left t1
+  keys_enclosed:
+    - what: rectangle
+      where: /(?:^matrix_|^mirror_matrix_).*/
+      size: mx + 1
+      fillet: 0
+    - what: outline
+      name: thumbfan_enclosed_left
+      operation: add
+    - what: outline
+      name: thumbfan_enclosed_right
+      operation: add
   key_cutouts:
     - what: rectangle
       where: true
@@ -145,62 +191,50 @@ outlines:
           shift: [-px/2, -py/2]
         - ref: mirror_matrix_c0_r3
           shift: [-px/2, -py/2]
-  board_left2:
+  board_left3:
     - what: polygon
       operation: stack
       fillet: 2
       points:
         - ref: matrix_c0_r0 # top-left board
           shift: [-px/2, py/2]
-        - ref: matrix_c1_r0
-          shift: [-px/2 + pd, py/2]
-        - ref: matrix_c2_r0
-          shift: [-px/2 + pd, py/2]
         - ref: matrix_c3_r0
-          shift: [-px/2, py/2]
+          shift: [-2px/2, py/2]
         - ref: matrix_c3_r0
-          shift: [1.5px - pd, py/2]
-        - ref: matrix_c3_r0
-          shift: [3.5mx + pd/2, py/2] # top-right board
+          shift: [1.85px - pd, py/2]
+        - ref: matrix_c6_r0
+          shift: [px/2, py/2] # top-right board
         - ref: matrix_c6_r2
           shift: [px/2, -1.5py + 3pd] # top-right t1
         - ref: thumbfan_t1_r0
           shift: [px/2, -py/1.5 - 1] # bottom-right t1
         - ref: thumbfan_t0_r0
           shift: [-1.5px/2, -py/2] # bottom-left t0
-        - ref: matrix_c2_mods
-          shift: [px/2, -py/2 + pd/2]
         - ref: matrix_c1_mods
           shift: [px/2 - pd, -py/2]
         - ref: matrix_c0_mods
           shift: [-px/2, -py/2]
         - ref: matrix_c0_r3
           shift: [-px/2, -py/2]
-  board_right2:
+  board_right3:
     - what: polygon
       operation: stack
       fillet: 2
       points:
         - ref: mirror_matrix_c0_r0 # top-right board
           shift: [-px/2, py/2]
-        - ref: mirror_matrix_c1_r0
-          shift: [-px/2 + pd, py/2]
-        - ref: mirror_matrix_c2_r0
-          shift: [-px/2 + pd, py/2]
         - ref: mirror_matrix_c3_r0
-          shift: [-px/2, py/2]
+          shift: [-2px/2, py/2]
         - ref: mirror_matrix_c3_r0
-          shift: [1.5px - pd, py/2]
-        - ref: mirror_matrix_c3_r0
-          shift: [3.5mx + pd/2, py/2] # top-right board
+          shift: [1.85px - pd, py/2]
+        - ref: mirror_matrix_c6_r0
+          shift: [px/2, py/2] # top-left board
         - ref: mirror_matrix_c6_r2
           shift: [px/2, -1.5py + 3pd] # top-right t1
         - ref: mirror_thumbfan_t1_r0
           shift: [px/2, -py/1.5 - 1] # bottom-right t1
         - ref: mirror_thumbfan_t0_r0
           shift: [-1.5px/2, -py/2] # bottom-left t0
-        - ref: mirror_matrix_c2_mods
-          shift: [px/2, -py/2 + pd/2]
         - ref: mirror_matrix_c1_mods
           shift: [px/2 - pd, -py/2]
         - ref: mirror_matrix_c0_mods
@@ -224,22 +258,22 @@ outlines:
     - what: outline
       name: board_right
       operation: stack
-  preview2:
+  preview3:
     - what: outline
-      name: board_left2
+      name: board_left3
       operation: stack
     - what: outline
-      name: board_right2
+      name: board_right3
       operation: stack
     - what: outline
       name: keycaps
       operation: stack
-  preview2_outline:
+  preview3_outline:
     - what: outline
-      name: board_left2
+      name: board_left3
       operation: stack
     - what: outline
-      name: board_right2
+      name: board_right3
       operation: stack
   plate:
     - what: outline
@@ -251,35 +285,87 @@ outlines:
     - what: outline
       name: key_cutouts
       operation: stack
-  plate2:
+  plate3:
     - what: outline
-      name: board_left2
+      name: board_left3
       operation: stack
     - what: outline
-      name: board_right2
+      name: board_right3
       operation: stack
     - what: outline
       name: key_cutouts
       operation: stack
+  case_full:
+    - what: outline
+      name: board_left
+      operation: stack
+    - what: outline
+      name: board_right
+      operation: stack
+      expand: 5
+    - what: outline
+      name: keys_enclosed
+      operation: subtract
+      fillet: 1
+    - what: outline
+      name: keycaps
+      operation: stack
+  case_full3:
+    - what: outline
+      name: board_left3
+      operation: stack
+    - what: outline
+      name: board_right3
+      operation: stack
+      expand: 5
+    - what: outline
+      name: keys_enclosed
+      operation: subtract
+      fillet: 1
+    - what: outline
+      name: keycaps
+      operation: stack
 pcbs:
-  main:
+  keeb_left:
     template: kicad8 # Required, since footprints are KiCad 8 only
     outlines:
       main_board:
-        outline: board_left
+        outline: board_left3
     footprints:
       mcu:
         what: ceoloide/mcu_nice_nano
         where:
           ref: matrix_c3_r0
           rotate: 0
-          shift: [mx - 2, -6]
+          shift: [mx - 3, -6]
         params:
           side: B
           reverse_mount: true
       mx_hotswaps:
         what: ceoloide/switch_mx
-        where: /(?:^matrix_)(?!(?:c3_r0|c3_r1|c4_r0|c4_r1|c6)).*/
+        where: /(?:^matrix_)(?!(?:c3_r[0-1]|c4_r0|c4_r1|c6)).*/
+        params:
+          include_keycap: true
+          reversible: false
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+      mx_hotswaps_left:
+        what: ceoloide/switch_mx
+        where: /(?:^matrix_|^thumbfan_)(?:c3_r[0-1]|c4_r[0-1]|c6).*/
+        adjust:
+          rotate: 90
+        params:
+          include_keycap: true
+          reversible: false
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+      mx_hotswaps_right:
+        what: ceoloide/switch_mx
+        where: /(?:^matrix_|^thumbfan_)(?:c3_r[0-1]|c4_r[0-1]).*/
+        adjust:
+          rotate: 90
         params:
           include_keycap: true
           reversible: false
@@ -308,25 +394,14 @@ pcbs:
           hotswap: true
           from: "{{column_net}}"
           to: "{{colrow}}"
-      mx_hotswaps_left:
-        what: ceoloide/switch_mx
-        where: /(?:^matrix_|^thumbfan_)(?:c3_r0|c3_r1|c4_r0|c4_r1|c6).*/
-        adjust:
-          rotate: 90
-        params:
-          include_keycap: true
-          reversible: false
-          hotswap: true
-          from: "{{column_net}}"
-          to: "{{colrow}}"
       diode:
         what: ceoloide/diode_tht_sod123
-        where: /(?:^matrix_|^thumbfan_)(?!(?:c0|c3_r[0-3]|c4|c6|c3_r0|c3_r1|t1)).*/
+        where: /(?:^matrix_|^thumbfan_)(?!(?:c0|c3_r[0-1]|c4|c6|c3_r0|c3_r1|t1)).*/
         params:
           from: "{{colrow}}"
           to: "{{row_net}}"
         adjust:
-          shift: [mx/2, 0]
+          shift: [mx/2 - 2, -5]
           rotate: 90
       diode_bot_right:
         what: ceoloide/diode_tht_sod123
@@ -335,37 +410,25 @@ pcbs:
           from: "{{colrow}}"
           to: "{{row_net}}"
         adjust:
-          shift: [mx/2, -5]
+          shift: [mx/2 - 2, -5]
           rotate: 90
       diode_right:
         what: ceoloide/diode_tht_sod123
-        where: /(?:^matrix_|^thumbfan_)(?:c3_r0|c3_r1|c6|t1).*/
+        where: /(?:^matrix_|^thumbfan_)(?:c3_r[0-1]|c6|t1).*/
         params:
           from: "{{colrow}}"
           to: "{{row_net}}"
         adjust:
           shift: [5, 0]
           rotate: 90
-      diode_top_right:
-        what: ceoloide/diode_tht_sod123
-        where: /(?:^matrix_|^thumbfan_)(?:c3_r2|c3_r3).*/
-        params:
-          from: "{{colrow}}"
-          to: "{{row_net}}"
-        adjust:
-          shift: [mx/2, 6]
-          rotate: 90
       battery_jst:
         what: ceoloide/battery_connector_jst_ph_2
-        where: mcu
-        params:
-          side: B
-          pos: pos
-          neg: GND
-          reversible: false
-        adjust:
+        where:
+          ref: matrix_c5_r0
           shift: [0, 0]
-          rotate: 90
+        adjust:
+          shift: [0, mx/2]
+          rotate: -90
       reset_switch:
         what: ceoloide/reset_switch_smd_side
         where: matrix_c6_r0
@@ -388,14 +451,13 @@ pcbs:
         adjust:
           shift: [mx/2 - 1, mx/2]
           rotate: 0
-
 cases:
   key_plate:
     - what: outline
       name: plate
       extrude: 1.5
-  key_plate2:
+  key_plate3:
     - what: outline
-      name: plate2
+      name: plate3
       extrude: 1.5  
 
