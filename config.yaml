@@ -1,7 +1,7 @@
 meta:
   engine: 4.2.1
 units:
-  mx: U # 19.05mm for MX switch footprint, 18.00mm for keycaps
+  mx: U # 19.05mm for MX switch footprint, 18.00mm for keycaps, 14.00mm for plate holes
   $default_width: U - 1
   $default_height: U - 1
   pd: 2
@@ -63,36 +63,36 @@ points:
     ref: matrix_c6_r0
     distance: 3mx
 outlines:
-  thumbfan_enclosed_left:
+  _thumbfan_enclosed_left:
     - what: polygon
       operation: stack
       fillet: 0
       points:
         - ref: matrix_c3_mods
-          shift: [mx/2, -mx/2 - 0.5]
+          shift: [mx/2 - 0.5, -mx/2 - 0.5]
         - ref: matrix_c3_mods
           shift: [mx/2, mx/2]
         - ref: matrix_c3_mods
           shift: [2.5mx + 0.5, mx/2]
         - ref: matrix_c5_r3
-          shift: [mx/2 + 0.5, -mx/2 + 1]
+          shift: [mx/2 + 0.5, -mx/2 + 1.25]
         - ref: thumbfan_t1_r0
           shift: [mx/2 + 0.5, 1.5mx/2 + 0.5] # top-right t1
         - ref: thumbfan_t1_r0
           shift: [mx/2 + 0.5, -1.5mx/2 - 0.5] # bottom-right t1
-  thumbfan_enclosed_right:
+  _thumbfan_enclosed_right:
     - what: polygon
       operation: stack
       fillet: 0
       points:
         - ref: mirror_matrix_c3_mods
-          shift: [mx/2, -mx/2 - 0.5]
+          shift: [mx/2 - 0.5, -mx/2 - 0.5]
         - ref: mirror_matrix_c3_mods
           shift: [mx/2, mx/2]
         - ref: mirror_matrix_c3_mods
           shift: [2.5mx + 0.5, mx/2]
         - ref: mirror_matrix_c5_r3
-          shift: [mx/2 + 0.5, -mx/2 + 1]
+          shift: [mx/2 + 0.5, -mx/2 + 1.25]
         - ref: mirror_thumbfan_t1_r0
           shift: [mx/2 + 0.5, 1.5mx/2 + 0.5] # top-left t1
         - ref: mirror_thumbfan_t1_r0
@@ -103,16 +103,16 @@ outlines:
       size: mx + 1
       fillet: 0
     - what: outline
-      name: thumbfan_enclosed_left
+      name: _thumbfan_enclosed_left
       operation: add
     - what: outline
-      name: thumbfan_enclosed_right
+      name: _thumbfan_enclosed_right
       operation: add
   key_cutouts:
     - what: rectangle
       where: true
-      size: [14, 14]
-  keycaps: # Keycaps are 18.0mm x 18.00mm
+      size: [14, 14] # plate hole cutouts are 14.00mm x 14.00mm
+  keycaps: # Keycaps are 18.00mm x 18.00mm
     - what: rectangle
       where: true
       size: mx - 1
@@ -132,16 +132,10 @@ outlines:
       points:
         - ref: matrix_c0_r0 # top-left board
           shift: [-px/2, py/2]
-        - ref: matrix_c1_r0
-          shift: [-px/2 + pd, py/2]
-        - ref: matrix_c2_r0
-          shift: [-px/2 + pd, py/2]
         - ref: matrix_c3_r0
-          shift: [-px/2, py/2]
+          shift: [-2px/2, py/2]
         - ref: matrix_c3_r0
-          shift: [1.5px - pd, py/2]
-        - ref: matrix_c5_r0
-          shift: [px/2 - pd, py/2]
+          shift: [1.85px - pd, py/2]
         - ref: matrix_c6_r0
           shift: [px/2, py/2] # top-right board
         - ref: matrix_c6_r2
@@ -150,8 +144,6 @@ outlines:
           shift: [px/2, -py/1.5 - 1] # bottom-right t1
         - ref: thumbfan_t0_r0
           shift: [-1.5px/2, -py/2] # bottom-left t0
-        - ref: matrix_c2_mods
-          shift: [px/2, -py/2 + pd/2]
         - ref: matrix_c1_mods
           shift: [px/2 - pd, -py/2]
         - ref: matrix_c0_mods
@@ -165,64 +157,6 @@ outlines:
       points:
         - ref: mirror_matrix_c0_r0 # top-right board
           shift: [-px/2, py/2]
-        - ref: mirror_matrix_c1_r0
-          shift: [-px/2 + pd, py/2]
-        - ref: mirror_matrix_c2_r0
-          shift: [-px/2 + pd, py/2]
-        - ref: mirror_matrix_c3_r0
-          shift: [-px/2, py/2]
-        - ref: mirror_matrix_c3_r0
-          shift: [1.5px - pd, py/2]
-        - ref: mirror_matrix_c5_r0
-          shift: [px/2 - pd, py/2]
-        - ref: mirror_matrix_c6_r0
-          shift: [px/2, py/2] # top-left board
-        - ref: mirror_matrix_c6_r2
-          shift: [px/2, -1.5py + 3pd] # top-left t1
-        - ref: mirror_thumbfan_t1_r0
-          shift: [px/2, -py/1.5 - 1] # bottom-left t1
-        - ref: mirror_thumbfan_t0_r0
-          shift: [-1.5px/2, -py/2] # bottom-right t0
-        - ref: mirror_matrix_c2_mods
-          shift: [px/2, -py/2 + pd/2]
-        - ref: mirror_matrix_c1_mods
-          shift: [px/2 - pd, -py/2]
-        - ref: mirror_matrix_c0_mods
-          shift: [-px/2, -py/2]
-        - ref: mirror_matrix_c0_r3
-          shift: [-px/2, -py/2]
-  board_left3:
-    - what: polygon
-      operation: stack
-      fillet: 2
-      points:
-        - ref: matrix_c0_r0 # top-left board
-          shift: [-px/2, py/2]
-        - ref: matrix_c3_r0
-          shift: [-2px/2, py/2]
-        - ref: matrix_c3_r0
-          shift: [1.85px - pd, py/2]
-        - ref: matrix_c6_r0
-          shift: [px/2, py/2] # top-right board
-        - ref: matrix_c6_r2
-          shift: [px/2, -1.5py + 3pd] # top-right t1
-        - ref: thumbfan_t1_r0
-          shift: [px/2, -py/1.5 - 1] # bottom-right t1
-        - ref: thumbfan_t0_r0
-          shift: [-1.5px/2, -py/2] # bottom-left t0
-        - ref: matrix_c1_mods
-          shift: [px/2 - pd, -py/2]
-        - ref: matrix_c0_mods
-          shift: [-px/2, -py/2]
-        - ref: matrix_c0_r3
-          shift: [-px/2, -py/2]
-  board_right3:
-    - what: polygon
-      operation: stack
-      fillet: 2
-      points:
-        - ref: mirror_matrix_c0_r0 # top-right board
-          shift: [-px/2, py/2]
         - ref: mirror_matrix_c3_r0
           shift: [-2px/2, py/2]
         - ref: mirror_matrix_c3_r0
@@ -241,6 +175,13 @@ outlines:
           shift: [-px/2, -py/2]
         - ref: mirror_matrix_c0_r3
           shift: [-px/2, -py/2]
+  board_full:
+    - what: outline
+      name: board_left
+      operation: stack
+    - what: outline
+      name: board_right
+      operation: stack
   preview:
     - what: outline
       name: board_left
@@ -250,30 +191,6 @@ outlines:
       operation: stack
     - what: outline
       name: keycaps
-      operation: stack
-  preview_outline:
-    - what: outline
-      name: board_left
-      operation: stack
-    - what: outline
-      name: board_right
-      operation: stack
-  preview3:
-    - what: outline
-      name: board_left3
-      operation: stack
-    - what: outline
-      name: board_right3
-      operation: stack
-    - what: outline
-      name: keycaps
-      operation: stack
-  preview3_outline:
-    - what: outline
-      name: board_left3
-      operation: stack
-    - what: outline
-      name: board_right3
       operation: stack
   plate:
     - what: outline
@@ -285,37 +202,12 @@ outlines:
     - what: outline
       name: key_cutouts
       operation: stack
-  plate3:
-    - what: outline
-      name: board_left3
-      operation: stack
-    - what: outline
-      name: board_right3
-      operation: stack
-    - what: outline
-      name: key_cutouts
-      operation: stack
-  case_full:
+  preview_w_case:
     - what: outline
       name: board_left
       operation: stack
     - what: outline
       name: board_right
-      operation: stack
-      expand: 5
-    - what: outline
-      name: keys_enclosed
-      operation: subtract
-      fillet: 1
-    - what: outline
-      name: keycaps
-      operation: stack
-  case_full3:
-    - what: outline
-      name: board_left3
-      operation: stack
-    - what: outline
-      name: board_right3
       operation: stack
       expand: 5
     - what: outline
@@ -330,7 +222,7 @@ pcbs:
     template: kicad8 # Required, since footprints are KiCad 8 only
     outlines:
       main_board:
-        outline: board_left3
+        outline: board_left
     footprints:
       mcu:
         what: ceoloide/mcu_nice_nano
@@ -455,9 +347,5 @@ cases:
   key_plate:
     - what: outline
       name: plate
-      extrude: 1.5
-  key_plate3:
-    - what: outline
-      name: plate3
       extrude: 1.5  
 
