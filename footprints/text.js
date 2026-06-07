@@ -1,22 +1,19 @@
 module.exports = {
-  params: {
-    layer: "F.SilkS",
-    text: "",
-    h_size: 1,
-    v_size: 1,
-    thickness: 0.15,
-    justify: "",
-  },
-  body: (p) => {
-    let justify = "";
-    if (p.justify != "") {
-      justify = `(justify ${p.justify})`;
-    }
+    params: {
+        text: '',
+        side: 'F',
+        knockout: false,
+        fontsize: 0.8
+    },
+    body: p => `
+        (module lib:text (layer F.Cu) (tedit 648E0265)
 
-    return `
-            (gr_text "${p.text}" ${p.at} (layer ${p.layer})
-                (effects (font (size ${p.h_size} ${p.v_size}) (thickness ${p.thickness})) ${justify})
-            )
-        `;
-  },
-};
+        ${p.at /* parametric position */}
+
+        (fp_text user "${p.text}" (at 0 0 ${p.rot + 90}) (layer ${p.side}.SilkS ${p.knockout ? "knockout" : ""}) (effects (font (size ${p.fontsize} ${p.fontsize}) (thickness 0.15)) ${p.side === 'F' ? "" : "(justify mirror)"} ))
+
+        )
+        `
+
+}
+
