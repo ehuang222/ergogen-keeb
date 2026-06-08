@@ -21,7 +21,7 @@ points:
         c0:
           key:
             column_net: P2
-            mirror.column_net: P19
+            mirror.column_net: P21
         c1:
           key:
             column_net: P3
@@ -30,7 +30,7 @@ points:
           key:
             stagger: mx/2
             column_net: P4
-            mirror.column_net: P21
+            mirror.column_net: P19
         c3:
           key:
             stagger: mx/4
@@ -39,7 +39,7 @@ points:
         c4:
           key:
             stagger: -mx/8
-            column_net: P21
+            column_net: P19
             mirror.column_net: P4
           rows.mods.skip: true
         c5:
@@ -51,26 +51,26 @@ points:
         c6:
           key:
             stagger: -mx/2
-            column_net: P19
+            column_net: P21
             mirror.column_net: P2
           rows.r3.skip: true
           rows.mods.skip: true
       rows:
         mods:
-          row_net: P14
-          mirror.row_net: P14
+          row_net: P10
+          mirror.row_net: P10
         r3:
+          row_net: P9
+          mirror.row_net: P9
+        r2:
+          row_net: P8
+          mirror.row_net: P8
+        r1:
           row_net: P7
           mirror.row_net: P7
-        r2:
-          row_net: P15
-          mirror.row_net: P15
-        r1:
+        r0:
           row_net: P6
           mirror.row_net: P6
-        r0:
-          row_net: P18
-          mirror.row_net: P18
     thumbfan:
       anchor:
         - ref: matrix_c4_r3
@@ -91,12 +91,12 @@ points:
             spread: 1.255mx
             height: 1.5mx
             tags: [key, key_1_5u]
-            column_net: P19
+            column_net: P21
             mirror.column_net: P2
       rows:
         r0:
-          row_net: P14
-          mirror.row_net: P14
+          row_net: P10
+          mirror.row_net: P10
   mirror: &mirror
     ref: matrix_c6_r0
     distance: 2mx
@@ -274,6 +274,7 @@ pcbs:
           include_keycap: true
           reversible: false
           hotswap: true
+          include_plated_holes: true
           from: "{{column_net}}"
           to: "{{colrow}}"
       mx_hotswap_mcu:
@@ -287,6 +288,7 @@ pcbs:
           include_keycap: true
           reversible: false
           hotswap: true
+          include_plated_holes: true
           from: "{{column_net}}"
           to: "{{colrow}}"
       mx_t0:
@@ -297,65 +299,56 @@ pcbs:
           keycap_width: 27.575 # 19.05mm * 1.5 - 1
           reversible: false
           hotswap: true
+          include_plated_holes: true
           from: "{{column_net}}"
           to: "{{colrow}}"
       mx_t1:
         what: ceoloide/switch_mx
         where: /(?:^thumbfan_)(?:t1_).*/
-        adjust:
-          rotate: 90
         params:
           include_keycap: true
-          keycap_width: 27.575 # 19.05mm * 1.5 - 1
+          keycap_height: 27.575 # 19.05mm * 1.5 - 1
           reversible: false
           hotswap: true
+          include_plated_holes: true
           from: "{{column_net}}"
           to: "{{colrow}}"
       diode_left:
         what: ceoloide/diode_tht_sod123
-        where: /(?:^matrix_|^thumbfan_)(?!(?:c3_r[0-1]|t1)).*/
+        where: /(?:^matrix_|^thumbfan_)(?!(?:c3_r[0-1])).*/
         params:
           from: "{{colrow}}"
           to: "{{row_net}}"
         adjust:
-          shift: [mx/2 - 2, -4]
-          rotate: 90
+          shift: [4, -5]
+          rotate: 0
       diode_mcu_left:
         what: ceoloide/diode_tht_sod123
-        where: /(?:^matrix_|^thumbfan_)(?:c3_r[0-1]).*/
+        where: /(?:^matrix_)(?:c3_r[0-1]).*/
         params:
           from: "{{colrow}}"
           to: "{{row_net}}"
         adjust:
-          shift: [-1, -8]
+          shift: [0, -8]
           rotate: 0
-      diode_t1_left:
-        what: ceoloide/diode_tht_sod123
-        where: /(?:^matrix_|^thumbfan_)(?:t1).*/
-        params:
-          from: "{{colrow}}"
-          to: "{{row_net}}"
-        adjust:
-          shift: [4, mx/2 - 1]
-          rotate: 180
-      battery_jst:
+      battery_jst_left:
         what: ceoloide/battery_connector_jst_ph_2
-        where: /(?:^matrix_)(?:c6_r2).*/
+        where: matrix_c6_r2
         adjust:
-          shift: [mx/2 - 3, -mx + 5]
+          shift: [6, -mx + 5]
           rotate: -90
         params:
           side: B
-      reset_switch:
+      reset_switch_left:
         what: ceoloide/reset_switch_smd_side
-        where: /(?:^matrix_)(?:c2_r0).*/
+        where: matrix_c2_r0 
         params:
           side: B
           from: GND
           to: RST
           reversible: false
         adjust:
-          shift: [3, mx/2 + 4]
+          shift: [4, mx/2 + 4]
           rotate: 0
       battery_switch_left:
         what: ceoloide/power_switch_smd_side
@@ -366,7 +359,7 @@ pcbs:
           to: RAW
           reversible: false
         adjust:
-          shift: [0, mx/2 + 1.7]
+          shift: [-1, mx/2 + 1.6]
           rotate: 90
       mcu_left:
         what: ceoloide/mcu_nice_nano
@@ -390,6 +383,7 @@ pcbs:
           include_keycap: true
           reversible: false
           hotswap: true
+          include_plated_holes: true
           from: "{{column_net}}"
           to: "{{colrow}}"
       mx_hotswap_mcu:
@@ -403,6 +397,7 @@ pcbs:
           include_keycap: true
           reversible: false
           hotswap: true
+          include_plated_holes: true
           from: "{{column_net}}"
           to: "{{colrow}}"
       mx_t0:
@@ -413,65 +408,56 @@ pcbs:
           keycap_width: 27.575 # 19.05mm * 1.5 - 1
           reversible: false
           hotswap: true
+          include_plated_holes: true
           from: "{{column_net}}"
           to: "{{colrow}}"
       mx_t1:
         what: ceoloide/switch_mx
         where: /(?:^mirror_thumbfan_)(?:t1_).*/
-        adjust:
-          rotate: 90
         params:
           include_keycap: true
-          keycap_width: 27.575 # 19.05mm * 1.5 - 1
+          keycap_height: 27.575 # 19.05mm * 1.5 - 1
           reversible: false
           hotswap: true
+          include_plated_holes: true
           from: "{{column_net}}"
           to: "{{colrow}}"
       diode_right:
         what: ceoloide/diode_tht_sod123
-        where: /(?:^mirror_matrix_|^mirror_thumbfan_)(?!(?:c3_r[0-1]|t1)).*/
+        where: /(?:^mirror_matrix_|^mirror_thumbfan_)(?!(?:c3_r[0-1])).*/
         params:
           from: "{{colrow}}"
           to: "{{row_net}}"
         adjust:
-          shift: [-mx/2 + 2, -4]
-          rotate: -90
+          shift: [-4, -5]
+          rotate: 0
       diode_mcu_right:
         what: ceoloide/diode_tht_sod123
-        where: /(?:^mirror_matrix_|^mirror_thumbfan_)(?:c3_r[0-1]).*/
+        where: /(?:^mirror_matrix_)(?:c3_r[0-1]).*/
         params:
           from: "{{colrow}}"
           to: "{{row_net}}"
         adjust:
-          shift: [-1, 8]
-          rotate: 180
-      diode_t1_right:
-        what: ceoloide/diode_tht_sod123
-        where: /(?:^mirror_thumbfan_)(?:t1).*/
-        params:
-          from: "{{colrow}}"
-          to: "{{row_net}}"
-        adjust:
-          shift: [4, mx/2 - 1]
-          rotate: 0
-      battery_jst:
+          shift: [0, mx/2 - 1.5]
+          rotate: -180
+      battery_jst_right:
         what: ceoloide/battery_connector_jst_ph_2
-        where: /(?:^mirror_matrix_)(?:c6_r2).*/
+        where: mirror_matrix_c6_r2
         adjust:
-          shift: [mx/2 - 3, -mx + 5]
+          shift: [6, -mx + 5]
           rotate: -90
         params:
           side: B
-      reset_switch:
+      reset_switch_right:
         what: ceoloide/reset_switch_smd_side
-        where: /(?:mirror_matrix_)(?:c2_r0).*/
+        where: mirror_matrix_c2_r0 
         params:
           side: B
           from: GND
           to: RST
           reversible: false
         adjust:
-          shift: [3, mx/2 + 4]
+          shift: [4, mx/2 + 4]
           rotate: 0
       battery_switch_right:
         what: ceoloide/power_switch_smd_side
@@ -482,171 +468,8 @@ pcbs:
           to: RAW
           reversible: false
         adjust:
-          shift: [0, mx/2 + 1.7]
+          shift: [-1, mx/2 + 1.6]
           rotate: -90
-      mcu_right:
-        what: ceoloide/mcu_nice_nano
-        where:
-          ref: mirror_matrix_c3_r0
-          rotate: 0
-          shift: [1, -6]
-        params:
-          side: B
-          reverse_mount: true
-  keeb_main:
-    template: kicad8 # Required, since footprints are KiCad 8 only
-    outlines:
-      board_main:
-        outline: board_full
-    footprints:
-      mx_hotswap:
-        what: ceoloide/switch_mx
-        where: /(?:matrix_)(?!(?:c3_r[0-1])).*/
-        params:
-          include_keycap: true
-          reversible: false
-          hotswap: true
-          from: "{{column_net}}"
-          to: "{{colrow}}"
-      mx_hotswap_mcu:
-        what: ceoloide/switch_mx
-        where: /(?:matrix_)(?:c3_r[0-1]).*/
-        adjust:
-          rotate: -90
-        params:
-          # keycap_width: 14 # for helping align mcu through holes
-          # keycap_height: 14
-          include_keycap: true
-          reversible: false
-          hotswap: true
-          from: "{{column_net}}"
-          to: "{{colrow}}"
-      mx_t0:
-        what: ceoloide/switch_mx
-        where: /(?:thumbfan_)(?:t0_).*/
-        params:
-          include_keycap: true
-          keycap_width: 27.575 # 19.05mm * 1.5 - 1
-          reversible: false
-          hotswap: true
-          from: "{{column_net}}"
-          to: "{{colrow}}"
-      mx_t1:
-        what: ceoloide/switch_mx
-        where: /(?:thumbfan_)(?:t1_).*/
-        adjust:
-          rotate: 90
-        params:
-          include_keycap: true
-          keycap_width: 27.575 # 19.05mm * 1.5 - 1
-          reversible: false
-          hotswap: true
-          from: "{{column_net}}"
-          to: "{{colrow}}"
-      diode_left:
-        what: ceoloide/diode_tht_sod123
-        where: /(?:^matrix_|^thumbfan_)(?!(?:c3_r[0-1]|t1)).*/
-        params:
-          from: "{{colrow}}"
-          to: "{{row_net}}"
-        adjust:
-          shift: [mx/2 - 2, -4]
-          rotate: 90
-      diode_mcu_left:
-        what: ceoloide/diode_tht_sod123
-        where: /(?:^matrix_|^thumbfan_)(?:c3_r[0-1]).*/
-        params:
-          from: "{{colrow}}"
-          to: "{{row_net}}"
-        adjust:
-          shift: [-1, -8]
-          rotate: 0
-      diode_t1_left:
-        what: ceoloide/diode_tht_sod123
-        where: /(?:^matrix_|^thumbfan_)(?:t1).*/
-        params:
-          from: "{{colrow}}"
-          to: "{{row_net}}"
-        adjust:
-          shift: [4, mx/2 - 1]
-          rotate: 180
-      diode_right:
-        what: ceoloide/diode_tht_sod123
-        where: /(?:^mirror_matrix_|^mirror_thumbfan_)(?!(?:c3_r[0-1]|t1)).*/
-        params:
-          from: "{{colrow}}"
-          to: "{{row_net}}"
-        adjust:
-          shift: [-mx/2 + 2, -4]
-          rotate: -90
-      diode_mcu_right:
-        what: ceoloide/diode_tht_sod123
-        where: /(?:^mirror_matrix_|^mirror_thumbfan_)(?:c3_r[0-1]).*/
-        params:
-          from: "{{colrow}}"
-          to: "{{row_net}}"
-        adjust:
-          shift: [-1, 8]
-          rotate: 180
-      diode_t1_right:
-        what: ceoloide/diode_tht_sod123
-        where: /(?:^mirror_thumbfan_)(?:t1).*/
-        params:
-          from: "{{colrow}}"
-          to: "{{row_net}}"
-        adjust:
-          shift: [4, mx/2 - 1]
-          rotate: 0
-      battery_jst:
-        what: ceoloide/battery_connector_jst_ph_2
-        where: /(?:matrix_)(?:c6_r2).*/
-        adjust:
-          shift: [mx/2 - 3, -mx + 5]
-          rotate: -90
-        params:
-          side: B
-      reset_switch:
-        what: ceoloide/reset_switch_smd_side
-        where: /(?:matrix_)(?:c2_r0).*/
-        params:
-          side: B
-          from: GND
-          to: RST
-          reversible: false
-        adjust:
-          shift: [3, mx/2 + 4]
-          rotate: 0
-      battery_switch_left:
-        what: ceoloide/power_switch_smd_side
-        where: matrix_c4_r0 
-        params:
-          side: B
-          from: BAT_P
-          to: RAW
-          reversible: false
-        adjust:
-          shift: [0, mx/2 + 1.7]
-          rotate: 90
-      battery_switch_right:
-        what: ceoloide/power_switch_smd_side
-        where: mirror_matrix_c4_r0 
-        params:
-          side: B
-          from: BAT_P
-          to: RAW
-          reversible: false
-        adjust:
-          shift: [0, mx/2 + 1.7]
-          rotate: -90
-      mcu_left:
-        what: ceoloide/mcu_nice_nano
-        where:
-          ref: matrix_c3_r0
-          rotate: 0
-          shift: [1, -6]
-        params:
-          side: B
-          reverse_mount: true
       mcu_right:
         what: ceoloide/mcu_nice_nano
         where:
