@@ -99,7 +99,7 @@ points:
           mirror.row_net: P10
   mirror: &mirror
     ref: matrix_c6_r0
-    distance: 2mx
+    distance: 2.5mx
 outlines:
   _thumbfan_enclosed_left:
     - what: polygon
@@ -320,8 +320,8 @@ pcbs:
           from: "{{colrow}}"
           to: "{{row_net}}"
         adjust:
-          shift: [4, -5]
-          rotate: 0
+          shift: [mx/2 - 3.6, -5]
+          rotate: 90
       diode_mcu_left:
         what: ceoloide/diode_tht_sod123
         where: /(?:^matrix_)(?:c3_r[0-1]).*/
@@ -329,44 +329,45 @@ pcbs:
           from: "{{colrow}}"
           to: "{{row_net}}"
         adjust:
-          shift: [0, -8]
-          rotate: 0
+          shift: [-3.6, -mx/2 + 4]
+          rotate: 90
       battery_jst_left:
         what: ceoloide/battery_connector_jst_ph_2
-        where: matrix_c6_r2
+        where: matrix_c1_r0
         adjust:
-          shift: [6, -mx + 5]
-          rotate: -90
+          shift: [-5, mx/2 + 5]
+          rotate: 90
         params:
           side: B
       reset_switch_left:
         what: ceoloide/reset_switch_smd_side
-        where: matrix_c2_r0 
+        where: matrix_c4_r0 
         params:
           side: B
           from: GND
           to: RST
           reversible: false
         adjust:
-          shift: [4, mx/2 + 4]
+          shift: [0, mx/2 + 1.50]
           rotate: 0
-      battery_switch_left:
+      power_switch_left:
         what: ceoloide/power_switch_smd_side
-        where: matrix_c4_r0 
+        where: matrix_c2_r0 
         params:
           side: B
           from: BAT_P
           to: RAW
           reversible: false
+          invert_behavior: true
         adjust:
-          shift: [-1, mx/2 + 1.6]
+          shift: [0, mx - 5.5]
           rotate: 90
       mcu_left:
         what: ceoloide/mcu_nice_nano
         where:
           ref: matrix_c3_r0
           rotate: 0
-          shift: [1, -6]
+          shift: [0.6, -7.54]
         params:
           side: B
           reverse_mount: true
@@ -429,8 +430,8 @@ pcbs:
           from: "{{colrow}}"
           to: "{{row_net}}"
         adjust:
-          shift: [-4, -5]
-          rotate: 0
+          shift: [-mx/2 + 3.6, -5]
+          rotate: -90
       diode_mcu_right:
         what: ceoloide/diode_tht_sod123
         where: /(?:^mirror_matrix_)(?:c3_r[0-1]).*/
@@ -438,44 +439,45 @@ pcbs:
           from: "{{colrow}}"
           to: "{{row_net}}"
         adjust:
-          shift: [0, mx/2 - 1.5]
-          rotate: -180
+          shift: [-3.6, -mx/2 + 4]
+          rotate: -90
       battery_jst_right:
         what: ceoloide/battery_connector_jst_ph_2
-        where: mirror_matrix_c6_r2
+        where: mirror_matrix_c1_r0
         adjust:
-          shift: [6, -mx + 5]
-          rotate: -90
+          shift: [-5, mx/2 + 5]
+          rotate: 90
         params:
           side: B
       reset_switch_right:
         what: ceoloide/reset_switch_smd_side
-        where: mirror_matrix_c2_r0 
+        where: mirror_matrix_c4_r0 
         params:
           side: B
           from: GND
           to: RST
           reversible: false
         adjust:
-          shift: [4, mx/2 + 4]
+          shift: [0, mx/2 + 1.50]
           rotate: 0
-      battery_switch_right:
+      power_switch_right:
         what: ceoloide/power_switch_smd_side
-        where: mirror_matrix_c4_r0 
+        where: mirror_matrix_c2_r0 
         params:
           side: B
           from: BAT_P
           to: RAW
           reversible: false
+          invert_behavior: false
         adjust:
-          shift: [-1, mx/2 + 1.6]
+          shift: [0, mx - 5.5]
           rotate: -90
       mcu_right:
         what: ceoloide/mcu_nice_nano
         where:
           ref: mirror_matrix_c3_r0
           rotate: 0
-          shift: [1, -6]
+          shift: [0.6, -7.54]
         params:
           side: B
           reverse_mount: true
