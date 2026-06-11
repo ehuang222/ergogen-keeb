@@ -320,7 +320,7 @@ pcbs:
           from: "{{colrow}}"
           to: "{{row_net}}"
         adjust:
-          shift: [mx/2 - 3.6, -5]
+          shift: [mx/2 - 4, -5]
           rotate: 90
       diode_mcu_left:
         what: ceoloide/diode_tht_sod123
@@ -335,7 +335,7 @@ pcbs:
         what: ceoloide/battery_connector_jst_ph_2
         where: matrix_c1_r0
         adjust:
-          shift: [-5, mx/2 + 5]
+          shift: [-7.2, mx/2 + 3.2]
           rotate: 90
         params:
           side: B
@@ -430,7 +430,7 @@ pcbs:
           from: "{{colrow}}"
           to: "{{row_net}}"
         adjust:
-          shift: [-mx/2 + 3.6, -5]
+          shift: [-mx/2 + 4, -5]
           rotate: -90
       diode_mcu_right:
         what: ceoloide/diode_tht_sod123
@@ -445,7 +445,7 @@ pcbs:
         what: ceoloide/battery_connector_jst_ph_2
         where: mirror_matrix_c1_r0
         adjust:
-          shift: [-5, mx/2 + 5]
+          shift: [-7.2, mx/2 + 3.2]
           rotate: 90
         params:
           side: B
