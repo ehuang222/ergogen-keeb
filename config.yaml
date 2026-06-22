@@ -151,6 +151,10 @@ outlines:
     - what: rectangle
       where: true
       size: [14, 14] # plate hole cutouts are 14.00mm x 14.00mm
+  _key_cutouts_left:
+    - what: rectangle
+      where: /(?:^matrix_|^thumbfan_).*/
+      size: [14, 14]
   keycaps: # Keycaps are 18.00mm x 18.00mm
     - what: rectangle
       where: true
@@ -245,6 +249,13 @@ outlines:
     - what: outline
       name: _key_cutouts
       operation: stack
+  plate_left:
+    - what: outline
+      name: board_left
+      operation: stack
+    - what: outline
+      name: _key_cutouts_left
+      operation: stack
   preview_w_case:
     - what: outline
       name: board_left
@@ -252,7 +263,7 @@ outlines:
     - what: outline
       name: board_right
       operation: stack
-      expand: 6
+      expand: 8
     - what: outline
       name: _keys_enclosed
       operation: subtract
@@ -260,6 +271,10 @@ outlines:
     - what: outline
       name: keycaps
       operation: stack
+  bottom_case:
+    - what: outline
+      name: board_left
+      expand: 9
 pcbs:
   keeb_left:
     template: kicad8
@@ -367,7 +382,7 @@ pcbs:
         where:
           ref: matrix_c3_r0
           rotate: 0
-          shift: [0.6, -7.54]
+          shift: [0.6, -6]
         params:
           side: B
           reverse_mount: true
@@ -477,15 +492,20 @@ pcbs:
         where:
           ref: mirror_matrix_c3_r0
           rotate: 0
-          shift: [0.6, -7.54]
+          shift: [0.6, -6]
         params:
           side: B
           reverse_mount: true
 cases:
   bot_case:
     - what: outline
+      name: bottom_case
+      extrude: 12
+    - what: outline
       name: board_left
-      extrude: 10
+      extrude: 8.5
+      shift: [0, 0, 3.5]
+      operation: subtract
   key_plate:
     - what: outline
       name: plate
