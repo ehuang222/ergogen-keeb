@@ -3,4 +3,4 @@ Wireless (BLE) ergonomic split mechanical keyboard generated with Ergogen. Heavi
 
 This is _very_ WIP and my first foray into PCB design and 3D modeling. Be warned, stuff in this repo will likely be broken and very jank.
 
-![Keeb top-view enclosed case sketch](/image/keeb-cased-both.svg "Keeb top-view enclosed case sketch")
+![Keeb top-view enclosed case sketch](/image/preview-both.svg "Keeb top-view enclosed case sketch")
