@@ -1,0 +1,572 @@
+meta:
+  engine: 4.2.1
+units:
+  mx: U # 19.05mm for MX switch footprint, 18.00mm for keycaps, 14.00mm for plate holes
+  $default_width: U
+  $default_height: U
+  pd: 2
+  px: mx + pd
+  py: mx + pd
+points:
+  key:
+    tags:
+    - key
+    padding: 1mx
+    spread: 1mx
+  zones:
+    matrix:
+      anchor:
+        shift: [80, -180] # Fix KiCad placement
+      columns:
+        c0:
+          key:
+            column_net: P8
+            mirror.column_net: P16
+        c1:
+          key:
+            column_net: P7
+            mirror.column_net: P14
+        c2:
+          key:
+            stagger: mx/2
+            column_net: P6
+            mirror.column_net: P15
+        c3:
+          key:
+            stagger: mx/4
+            column_net: P5
+            mirror.column_net: P18
+        c4:
+          key:
+            stagger: -mx/8
+            column_net: P4
+            mirror.column_net: P19
+          rows.mods.skip: true
+        c5:
+          key:
+            stagger: -mx/8
+            column_net: P9
+            mirror.column_net: P10
+          rows.mods.skip: true
+        c6:
+          key:
+            stagger: -mx/2
+            column_net: P16
+            mirror.column_net: P8
+          rows.r3.skip: true
+          rows.mods.skip: true
+      rows:
+        mods:
+          row_net: P10
+          mirror.row_net: P9
+        r3:
+          row_net: P3
+          mirror.row_net: P7
+        r2:
+          row_net: P18
+          mirror.row_net: P4
+        r1:
+          row_net: P15
+          mirror.row_net: P5
+        r0:
+          row_net: P14
+          mirror.row_net: P6
+    thumbfan:
+      anchor:
+        - ref: matrix_c4_r3
+          shift: [mx/2, -mx - 5]
+      columns:
+        t0:
+          key:
+            splay: -24
+            shift: [0, 0]
+            width: 1.5mx
+            tags: [key, key_1_5uw]
+            column_net: P9
+            mirror.column_net: P10
+        t1:
+          key:
+            splay: 0
+            shift: [0, mx/4]
+            spread: 1.25mx
+            height: 1.5mx
+            tags: [key, key_1_5u]
+            column_net: P16
+            mirror.column_net: P8
+      rows:
+        r0:
+          row_net: P10
+          mirror.row_net: P9
+  mirror: &mirror
+    ref: matrix_c6_r0
+    distance: 2.5mx
+outlines:
+  _thumbfan_enclosed_left:
+    - what: polygon
+      operation: stack
+      points:
+        - ref: matrix_c3_mods
+          shift: [mx/2 - 0.5, -mx/2 - 0.5]
+        - ref: matrix_c3_mods
+          shift: [mx/2, mx/2]
+        - ref: matrix_c3_mods
+          shift: [2.5mx + 0.5, mx/2]
+        - ref: matrix_c5_r3
+          shift: [mx/2 + 0.5, -mx/2 + 0.5]
+        - ref: thumbfan_t1_r0
+          shift: [mx/2 + 0.5, 1.5mx/2 + 0.5] # top-right t1
+        - ref: thumbfan_t1_r0
+          shift: [mx/2 + 0.5, -1.5mx/2 - 0.5] # bottom-right t1
+        - ref: thumbfan_t0_r0
+          shift: [-1.5mx/2, -mx/2 - 0.5] # bottom-left t0
+  _thumbfan_enclosed_right:
+    - what: polygon
+      operation: stack
+      points:
+        - ref: mirror_matrix_c3_mods
+          shift: [mx/2 - 0.5, -mx/2 - 0.5]
+        - ref: mirror_matrix_c3_mods
+          shift: [mx/2, mx/2]
+        - ref: mirror_matrix_c3_mods
+          shift: [2.5mx + 0.5, mx/2]
+        - ref: mirror_matrix_c5_r3
+          shift: [mx/2 + 0.5, -mx/2 + 0.5]
+        - ref: mirror_thumbfan_t1_r0
+          shift: [mx/2 + 0.5, 1.5mx/2 + 0.5] # top-left t1
+        - ref: mirror_thumbfan_t1_r0
+          shift: [mx/2 + 0.5, -1.5mx/2 - 0.5] # bottom-left t1
+        - ref: mirror_thumbfan_t0_r0
+          shift: [-1.5mx/2, -mx/2 - 0.5] # bottom-right t0
+  _keys_enclosed:
+    - what: rectangle
+      where: /(?:^matrix_|^mirror_matrix_).*/
+      # where: /(?:^matrix_).*/
+      size: mx + 1
+    - what: outline
+      name: _thumbfan_enclosed_left
+      operation: add
+      expand: 0.1
+    - what: outline
+      name: _thumbfan_enclosed_right
+      operation: add
+      expand: 0.1
+  _key_cutouts:
+    - what: rectangle
+      where: true
+      size: [14, 14] # plate hole cutouts are 14.00mm x 14.00mm
+  _key_cutouts_left:
+    - what: rectangle
+      where: /(?:^matrix_|^thumbfan_).*/
+      size: [14, 14]
+  keycaps: # Keycaps are 18.00mm x 18.00mm
+    - what: rectangle
+      where: true
+      size: mx - 1
+      fillet: 1
+    - what: rectangle
+      where: [key_1_5uw]
+      size: [1.5mx-1, mx-1]
+      fillet: 1
+    - what: rectangle
+      where: [key_1_5u]
+      size: [mx-1, 1.5mx-1]
+      fillet: 1
+  board_left:
+    - what: polygon
+      operation: stack
+      fillet: 2
+      points:
+        - ref: matrix_c0_r0 # top-left board
+          shift: [-px/2, py/2]
+        - ref: matrix_c3_r0
+          shift: [-2px/2, py/2]
+        - ref: matrix_c3_r0
+          shift: [1.85px - pd, py/2]
+        - ref: matrix_c6_r0
+          shift: [px/2, py/2] # top-right board
+        # - ref: matrix_c6_r0
+        #   shift: [px/2, -3py - 10] # top-right t1 (use for slope correction then comment out)
+        - ref: thumbfan_t1_r0
+          shift: [px/2, 1.5mx/2] # top-right t1 
+        - ref: thumbfan_t1_r0
+          shift: [px/2, -1.5mx/2 - pd/2] # bottom-right t1
+        - ref: thumbfan_t0_r0
+          shift: [-1.5mx/2 - 0.5, -mx/2 - pd/2] # bottom-left t0
+        - ref: matrix_c1_mods
+          shift: [px/2 - 1, -py/2]
+        - ref: matrix_c0_mods
+          shift: [-px/2, -py/2]
+        - ref: matrix_c0_r3
+          shift: [-px/2, -py/2]
+  board_right:
+    - what: polygon
+      operation: stack
+      fillet: 2
+      points:
+        - ref: mirror_matrix_c0_r0 # top-right board
+          shift: [-px/2, py/2]
+        - ref: mirror_matrix_c3_r0
+          shift: [-2px/2, py/2]
+        - ref: mirror_matrix_c3_r0
+          shift: [1.85px - pd, py/2]
+        - ref: mirror_matrix_c6_r0
+          shift: [px/2, py/2] # top-left board
+        # - ref: mirror_matrix_c6_r0
+        #   shift: [px/2, -3py - 10] # top-left t1 (use for slope correction then comment out)
+        - ref: mirror_thumbfan_t1_r0
+          shift: [px/2, 1.5mx/2] # top-left t1 
+        - ref: mirror_thumbfan_t1_r0
+          shift: [px/2, -1.5mx/2 - pd/2] # bottom-left t1
+        - ref: mirror_thumbfan_t0_r0
+          shift: [-1.5mx/2 - 0.5, -mx/2 - pd/2] # bottom-right t0
+        - ref: mirror_matrix_c1_mods
+          shift: [px/2 - 1, -py/2]
+        - ref: mirror_matrix_c0_mods
+          shift: [-px/2, -py/2]
+        - ref: mirror_matrix_c0_r3
+          shift: [-px/2, -py/2]
+  board_full:
+    - what: outline
+      name: board_left
+      operation: stack
+    - what: outline
+      name: board_right
+      operation: stack
+  preview:
+    - what: outline
+      name: board_left
+      operation: stack
+    - what: outline
+      name: board_right
+      operation: stack
+    - what: outline
+      name: keycaps
+      operation: stack
+  plate:
+    - what: outline
+      name: board_left
+      operation: stack
+    - what: outline
+      name: board_right
+      operation: stack
+    - what: outline
+      name: _key_cutouts
+      operation: stack
+  plate_left:
+    - what: outline
+      name: board_left
+      operation: stack
+    - what: outline
+      name: _key_cutouts_left
+      operation: stack
+  preview_w_case:
+    - what: outline
+      name: board_left
+      operation: stack
+      expand: 0
+      fillet: 0
+    - what: outline
+      name: board_right
+      operation: stack
+      expand: 6
+      fillet: 0
+    - what: outline
+      name: _keys_enclosed
+      operation: stack
+      fillet: 0
+    - what: outline
+      name: keycaps
+      operation: stack
+  top_case_preview:
+    - what: outline
+      name: _key_cutouts_left
+      operation: stack
+    - what: outline
+      name: _keys_enclosed
+      operation: stack
+pcbs:
+  keeb_left:
+    template: kicad8
+    outlines:
+      board_left:
+        outline: board_left
+    footprints:
+      mx_hotswap:
+        what: ceoloide/switch_mx
+        where: /(?:^matrix_)(?!(?:c4_r[2-3]|c5_r[2-3])).*/
+        params:
+          include_keycap: true
+          reversible: false
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+          switch_3dmodel_filename: "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/KEY-TH_L15.6-W14.0-H15.3.wrl"
+          hotswap_3dmodel_filename: "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/SMD_KEYBOARD-SW.wrl"
+          switch_3dmodel_xyz_rotation: [180, 0, 90]
+          switch_3dmodel_xyz_offset: [-3.8, 0.65, -1.5]
+          hotswap_3dmodel_xyz_offset: [-0.6, -3.8, 0]
+      mx_mcu:
+        what: ceoloide/switch_mx
+        where: /(?:^matrix_)(?:c4_r[2-3]|c5_r[2-3]).*/
+        adjust:
+          rotate: 90
+        params:
+          include_keycap: true
+          reversible: false
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+          switch_3dmodel_filename: "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/KEY-TH_L15.6-W14.0-H15.3.wrl"
+          hotswap_3dmodel_filename: "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/SMD_KEYBOARD-SW.wrl"
+          switch_3dmodel_xyz_rotation: [180, 0, 90]
+          switch_3dmodel_xyz_offset: [-3.8, 0.65, -1.5]
+          hotswap_3dmodel_xyz_offset: [-0.6, -3.8, 0]
+      mx_t0:
+        what: ceoloide/switch_mx
+        where: /(?:^thumbfan_)(?:t0_).*/
+        params:
+          include_keycap: true
+          keycap_width: 27.575 # 19.05mm * 1.5 - 1
+          #keycap_width: 15.6
+          reversible: false
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+          switch_3dmodel_filename: "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/KEY-TH_L15.6-W14.0-H15.3.wrl"
+          hotswap_3dmodel_filename: "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/SMD_KEYBOARD-SW.wrl"
+          switch_3dmodel_xyz_rotation: [180, 0, 90]
+          switch_3dmodel_xyz_offset: [-3.8, 0.65, -1.5]
+          hotswap_3dmodel_xyz_offset: [-0.6, -3.8, 0]
+        adjust:
+          rotate: 0
+      mx_t1:
+        what: ceoloide/switch_mx
+        where: /(?:^thumbfan_)(?:t1_).*/
+        params:
+          include_keycap: true
+          keycap_height: 27.575 # 19.05mm * 1.5 - 1
+          reversible: false
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+          switch_3dmodel_filename: "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/KEY-TH_L15.6-W14.0-H15.3.wrl"
+          hotswap_3dmodel_filename: "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/SMD_KEYBOARD-SW.wrl"
+          switch_3dmodel_xyz_rotation: [180, 0, 90]
+          switch_3dmodel_xyz_offset: [-3.8, 0.65, -1.5]
+          hotswap_3dmodel_xyz_offset: [-0.6, -3.8, 0]
+        adjust:
+          rotate: 0
+      diode:
+        what: ceoloide/diode_tht_sod123
+        where: /(?:^matrix_|^thumbfan_)(?!(?:c4_r[2-3]|c5_r[2-3]|t1)).*/
+        params:
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+        adjust:
+          shift: [0, -5]
+          rotate: 0
+      diode_mcu:
+        what: ceoloide/diode_tht_sod123
+        where: /(?:^matrix_)(?:c4_r[2-3]|c5_r[2-3]).*/
+        params:
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+        adjust:
+          shift: [0, mx/2 - 1.5]
+          rotate: 180
+      diode_t1:
+        what: ceoloide/diode_tht_sod123
+        where: /(?:^thumbfan_)(?:t1_).*/
+        params:
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+        adjust:
+          shift: [0, -5]
+          rotate: 0
+      reset_sw:
+        what: custom_reset_switch
+        where: thumbfan_t0_r0
+        params:
+          side: F
+          P1: GND
+          P2: RST
+        adjust:
+          shift: [mx/2 + 0.8, 0]
+          rotate: 90
+      power_sw:
+        what: custom_power_switch
+        where: thumbfan_t0_r0
+        params:
+          side: F
+          P1: RAW
+          P2: POS
+          P3: GND
+        adjust:
+          shift: [-mx/2 - 0.8, -0.6]
+          rotate: 0
+      battery_connector:
+        what: custom_connector_125
+        where: matrix_c6_r2
+        params:
+          side: B
+          P1: GND
+          P2: POS
+          P3: GND
+          P4: GND
+        adjust:
+          shift: [2, -mx]
+          rotate: -90
+      mcu:
+        what: ceoloide/mcu_supermini_nrf52840
+        where:
+          ref: matrix_c5_r3
+          rotate: 0
+          shift: [-2, mx/2]
+        params:
+          side: B
+          reverse_mount: true
+  keeb_right:
+    template: kicad8
+    outlines:
+      board_right:
+        outline: board_right
+    footprints:
+      mx_hotswap:
+        what: ceoloide/switch_mx
+        where: /(?:^mirror_matrix_)(?!(?:c4_r[2-3]|c5_r[2-3])).*/
+        params:
+          include_keycap: true
+          reversible: false
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+          switch_3dmodel_filename: "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/KEY-TH_L15.6-W14.0-H15.3.wrl"
+          hotswap_3dmodel_filename: "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/SMD_KEYBOARD-SW.wrl"
+          switch_3dmodel_xyz_rotation: [180, 0, 90]
+          switch_3dmodel_xyz_offset: [-3.8, 0.65, -1.5]
+          hotswap_3dmodel_xyz_offset: [-0.6, -3.8, 0]
+      mx_mcu:
+        what: ceoloide/switch_mx
+        where: /(?:^mirror_matrix_)(?:c4_r[2-3]|c5_r[2-3]).*/
+        adjust:
+          rotate: 90
+        params:
+          include_keycap: true
+          reversible: false
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+          switch_3dmodel_filename: "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/KEY-TH_L15.6-W14.0-H15.3.wrl"
+          hotswap_3dmodel_filename: "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/SMD_KEYBOARD-SW.wrl"
+          switch_3dmodel_xyz_rotation: [180, 0, 90]
+          switch_3dmodel_xyz_offset: [-3.8, 0.65, -1.5]
+          hotswap_3dmodel_xyz_offset: [-0.6, -3.8, 0]
+      mx_t0:
+        what: ceoloide/switch_mx
+        where: /(?:^mirror_thumbfan_)(?:t0_).*/
+        params:
+          include_keycap: true
+          keycap_width: 27.575 # 19.05mm * 1.5 - 1
+          reversible: false
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+          switch_3dmodel_filename: "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/KEY-TH_L15.6-W14.0-H15.3.wrl"
+          hotswap_3dmodel_filename: "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/SMD_KEYBOARD-SW.wrl"
+          switch_3dmodel_xyz_rotation: [180, 0, 90]
+          switch_3dmodel_xyz_offset: [-3.8, 0.65, -1.5]
+          hotswap_3dmodel_xyz_offset: [-0.6, -3.8, 0]
+        adjust:
+          rotate: 0
+      mx_t1:
+        what: ceoloide/switch_mx
+        where: /(?:^mirror_thumbfan_)(?:t1_).*/
+        params:
+          include_keycap: true
+          keycap_height: 27.575 # 19.05mm * 1.5 - 1
+          reversible: false
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+          switch_3dmodel_filename: "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/KEY-TH_L15.6-W14.0-H15.3.wrl"
+          hotswap_3dmodel_filename: "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/SMD_KEYBOARD-SW.wrl"
+          switch_3dmodel_xyz_rotation: [180, 0, 90]
+          switch_3dmodel_xyz_offset: [-3.8, 0.65, -1.5]
+          hotswap_3dmodel_xyz_offset: [-0.6, -3.8, 0]
+        adjust:
+          rotate: 0
+      diode:
+        what: ceoloide/diode_tht_sod123
+        where: /(?:^mirror_matrix_|^mirror_thumbfan_)(?!(?:c4_r[2-3]|c5_r[2-3]|t1)).*/
+        params:
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+        adjust:
+          shift: [0, -5]
+          rotate: 0
+      diode_mcu:
+        what: ceoloide/diode_tht_sod123
+        where: /(?:^mirror_matrix_)(?:c4_r[2-3]|c5_r[2-3]).*/
+        params:
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+        adjust:
+          shift: [0, -mx/2 + 1.5]
+          rotate: 0
+      diode_t1:
+        what: ceoloide/diode_tht_sod123
+        where: /(?:^mirror_thumbfan_)(?:t1_).*/
+        params:
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+        adjust:
+          shift: [0, -5]
+          rotate: 0
+      reset_sw:
+        what: custom_reset_switch
+        where: mirror_thumbfan_t0_r0
+        params:
+          side: F
+          P1: RST
+          P2: GND
+        adjust:
+          shift: [mx/2 + 0.8, 0]
+          rotate: 90
+      power_sw:
+        what: custom_power_switch
+        where: mirror_thumbfan_t0_r0
+        params:
+          side: F
+          P1: POS
+          P2: RAW
+          P3: GND
+        adjust:
+          shift: [-mx/2 - 0.8, -0.6]
+          rotate: 0
+      battery_connector:
+        what: custom_connector_125
+        where: mirror_matrix_c6_r2
+        params:
+          side: B
+          P1: GND
+          P2: POS
+          P3: GND
+          P4: GND
+        adjust:
+          shift: [2, -mx]
+          rotate: -90
+      mcu:
+        what: ceoloide/mcu_supermini_nrf52840
+        where:
+          ref: mirror_matrix_c5_r3
+          rotate: 0
+          shift: [-2, mx/2]
+        params:
+          side: B
+          reverse_mount: true
+cases:
+  key_plate:
+    - what: outline
+      name: plate
+      extrude: 1.5  
+
