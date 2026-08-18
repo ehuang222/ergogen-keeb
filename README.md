@@ -3,7 +3,7 @@ A 66-key wireless (BLE) ergonomic split mechanical keyboard generated with Ergog
 
 This is a learning project. It's _very_ WIP and my first foray into PCB design and 3D modeling. Be warned, stuff in this repo will likely be broken and messy.
 
-![Keeb top-view enclosed case sketch](/image/preview_w_case.svg "Keeb top-view enclosed case sketch")
+![Keeb top-view enclosed case sketch](/image/preview_both.svg "Keeb top-view enclosed case sketch")
 
 ## Table of Contents
 - [Project Overview](#project-overview)
